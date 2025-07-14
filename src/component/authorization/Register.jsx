@@ -40,7 +40,11 @@ const Register = () => {
       if (res.ok) {
         alert("Registration successful!");
         console.log(data);
+        if(data.role === "student") { 
         navigate("/login"); 
+        }else {
+        navigate("/waitlist");
+        }
       } else {
         alert(data.error || "Registration failed!");
       }
@@ -103,7 +107,7 @@ const Register = () => {
               className="w-full px-4 py-2 rounded-2xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
             >
               <option value="Student">Student</option>
-              <option value="Trainer">Trainer</option>
+              <option value="Teacher">Teacher</option>
             </select>
           </div>
           <button

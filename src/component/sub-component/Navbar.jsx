@@ -20,9 +20,9 @@ const Navbar = ({ sidebarOpen }) => {
       setUser(storedUser ? JSON.parse(storedUser) : null);
     };
 
-    loadUser(); 
+    loadUser();
     window.addEventListener("storage", loadUser);
-    return () => window.removeEventListener("storage", loadUser); 
+    return () => window.removeEventListener("storage", loadUser);
   }, []);
 
   const toggleTheme = () => {
@@ -35,15 +35,14 @@ const Navbar = ({ sidebarOpen }) => {
   const handleLogout = () => {
     localStorage.removeItem("user");
     setUser(null);
-    window.dispatchEvent(new Event("storage")); 
+    window.dispatchEvent(new Event("storage"));
     navigate("/login");
   };
 
   return (
     <nav
-      className={`flex items-center justify-between px-6 py-3 bg-white dark:bg-black shadow transition-all duration-300 ${
-        sidebarOpen ? "ml-72" : "ml-16"
-      }`}
+      className={`flex items-center justify-between px-6 py-3 bg-white dark:bg-black transition-all duration-300 ${sidebarOpen ? "ml-72" : "ml-16"
+        }`}
     >
       <div className="relative" style={{ width: "80vh" }}>
         <input
@@ -81,12 +80,12 @@ const Navbar = ({ sidebarOpen }) => {
           )}
         </button>
 
-        {user ? (
+        {user? (
           <>
+            {/* Avatar */}
             <div
-              className={`w-9 h-9 flex items-center justify-center rounded-full overflow-hidden border-2 ${
-                dark ? "border-white" : "border-black"
-              }`}
+              className={`w-9 h-9 flex items-center justify-center rounded-full overflow-hidden border-2 ${dark ? "border-white" : "border-black"
+                }`}
             >
               {user.image ? (
                 <img src={user.image} alt="User avatar" className="w-full h-full object-cover rounded-full" />
@@ -97,6 +96,7 @@ const Navbar = ({ sidebarOpen }) => {
               )}
             </div>
 
+            {/* Logout Button */}
             <button
               onClick={handleLogout}
               className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition"
@@ -109,7 +109,11 @@ const Navbar = ({ sidebarOpen }) => {
                 strokeWidth={2}
                 viewBox="0 0 24 24"
               >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H7a2 2 0 01-2-2V7a2 2 0 012-2h4a2 2 0 012 2v1" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H7a2 2 0 01-2-2V7a2 2 0 012-2h4a2 2 0 012 2v1"
+                />
               </svg>
             </button>
           </>
@@ -121,6 +125,7 @@ const Navbar = ({ sidebarOpen }) => {
             Login
           </Link>
         )}
+
       </div>
     </nav>
   );

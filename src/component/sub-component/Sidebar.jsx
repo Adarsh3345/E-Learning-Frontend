@@ -28,7 +28,7 @@ const Sidebar = ({ isOpen, onClose }) => {
           </Link>
         </li>
         <li>
-          <Link to="/courses" className="block px-4 py-2 rounded hover:bg-gray-700 transition">
+          <Link to="/create-course" className="block px-4 py-2 rounded hover:bg-gray-700 transition">
             Courses
           </Link>
         </li>

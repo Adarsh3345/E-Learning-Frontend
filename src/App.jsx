@@ -5,6 +5,10 @@ import Sidebar from "./component/sub-component/Sidebar";
 import Login from "./component/authorization/Login";
 import Register from "./component/authorization/Register";
 import ForgetPassword from "./component/authorization/Forget-password";
+import Dashboard from "./component/pages/dashboard/Dashboard";
+import WaitingPage from "./component/authorization/Waiting";
+import CreateCoursePage from "./component/pages/Teacher/CreateCourse/CreateCoursePage";
+import CreateWeekContent from "./component/pages/Teacher/WeekContent/CreateWeekContent";
 // Layout Component
 const BlankLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -25,8 +29,12 @@ const BlankLayout = () => {
         <Navbar sidebarOpen={sidebarOpen} />
 
         {/* Main page content */}
-        <main className="flex-1 bg-white dark:bg-black text-black dark:text-white">
-          <Outlet />
+        <main
+          className={`flex-1 w-auto h-auto overflow-y-auto scrollbar-hide bg-white dark:bg-black text-black dark:text-white transition-all duration-300 ${sidebarOpen ? "ml-[20vw]" : "ml-[5rem]"
+            }`}
+        >
+
+          <Outlet context={{ sidebarOpen }} />
         </main>
       </div>
     </div>
@@ -52,8 +60,20 @@ const router = createBrowserRouter([
         element: <ForgetPassword />,
       },
       {
+        path: "/waitlist",
+        element: <WaitingPage />,
+      },
+      {
         path: "/dashboard",
-        element: <div>Dashboard Page</div>,
+        element: <Dashboard />,
+      },
+      {
+        path: "/create-course",
+        element: <CreateCoursePage/>, 
+      },
+      {
+        path:"/create-week",
+        element:<CreateWeekContent/>
       },
       {
         path: "/courses",
