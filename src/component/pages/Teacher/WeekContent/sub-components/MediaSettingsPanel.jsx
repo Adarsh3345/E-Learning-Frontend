@@ -115,7 +115,6 @@ const MediaSettingsPanel = ({ settings, onChange }) => {
                     </div>
                 </div>
 
-                {/* Shadow */}
                 <div>
                     <label className="block text-sm font-medium mb-1">Shadow</label>
                     <select

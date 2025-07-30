@@ -1,10 +1,11 @@
 import React from "react";
-import { useOutletContext } from "react-router-dom";
+import { useOutletContext,useNavigate } from "react-router-dom";
 import useUserRole from "../../../hook/useUserRole";
 
 function HeadBar() {
   const role = useUserRole();
   const { sidebarOpen } = useOutletContext();
+const navigate = useNavigate();
 
   const isStudent = role === "student";
   const isTeacher = role === "teacher";
@@ -30,7 +31,12 @@ function HeadBar() {
           Enroll now
         </button>
       ) : (
-        <button className="bg-white text-black dark:bg-black dark:text-white px-5 py-2 rounded-full font-semibold hover:bg-gray-100 transition dark:hover:bg-gray-800">
+        <button
+          className="bg-white text-black dark:bg-black dark:text-white px-5 py-2 rounded-full font-semibold hover:bg-gray-100 transition dark:hover:bg-gray-800"
+          onClick={() => {
+            navigate("/create-course");
+          }}
+        >
           Create Course
         </button>
       )}

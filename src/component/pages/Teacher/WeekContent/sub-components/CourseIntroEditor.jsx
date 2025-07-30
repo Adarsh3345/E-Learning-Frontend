@@ -12,7 +12,7 @@ const CourseIntroEditor = () => {
       content: "",
       images: [],
       settings: {},
-      options: type === "quiz" ? ["", "", "", ""] : [], 
+      options: type === "quiz" ? ["", "", "", ""] : [],
     };
     setComponents([...components, newComponent]);
     setActiveIndex(components.length);
@@ -154,15 +154,81 @@ const CourseIntroEditor = () => {
 
             {/* Attachment */}
             {block.type === "attachment" && (
-              <input
-                type="file"
-                onChange={(e) =>
-                  updateComponent(index, {
-                    images: [e.target.files[0]?.name || ""],
-                  })
-                }
-              />
+              <div className="space-y-3">
+                <input
+                  type="file"
+                  onChange={(e) => {
+                    const file = e.target.files[0];
+                    if (!file) return;
+
+                    const fileUrl = URL.createObjectURL(file);
+                    const fileType = file.type;
+                    updateComponent(index, {
+                      fileUrl,
+                      fileType,
+                      content: file.name,
+                    });
+                  }}
+                />
+
+                {/* Preview / Download Section */}
+                {block.fileUrl && (
+                  <div className="flex items-center gap-4 p-3 border rounded shadow-sm bg-gray-50">
+                    {/* Thumbnail */}
+                    {block.fileType?.startsWith("image") ? (
+                      <img
+                        src={block.fileUrl}
+                        alt="attachment"
+                        style={{
+                          border: `${block.settings?.thumbBorderSize || "1px"} solid ${block.settings?.thumbBorderColor || "#000000"}`,
+                          borderRadius: block.settings?.thumbBorderRadius || "0px",
+                          objectFit: "cover",
+                          width: "100px",
+                          height: "80px",
+                        }}
+                      />
+                    ) : (
+                      <div
+                        className="w-[100px] h-[80px] bg-gray-200 flex items-center justify-center rounded"
+                        style={{
+                          border: `${block.settings?.thumbBorderSize || "1px"} solid ${block.settings?.thumbBorderColor || "#000000"}`,
+                          borderRadius: block.settings?.thumbBorderRadius || "0px",
+                        }}
+                      >
+                        <a
+                          href={block.fileUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-xs underline text-blue-600"
+                        >
+                          Download
+                        </a>
+                      </div>
+                    )}
+
+                    {/* Description */}
+                    <div
+                      style={{
+                        fontSize: `${block.settings?.descFontSize || 14}px`,
+                        color: block.settings?.descColor || "#000000",
+                        textAlign: block.settings?.descTextAlign || "left",
+                        fontWeight: block.settings?.descFontWeight || "normal",
+                      }}
+                      className="flex-1"
+                    >
+                      {block.description || "No description provided."}
+                    </div>
+                  </div>
+                )}
+
+                {/* Attachment Settings Panel */}
+                <AttachmentSettingsPanel
+                  settings={block.settings}
+                  onChange={(settings) => updateComponent(index, { settings })}
+                />
+              </div>
             )}
+
 
             {/* Table */}
             {block.type === "table" && (

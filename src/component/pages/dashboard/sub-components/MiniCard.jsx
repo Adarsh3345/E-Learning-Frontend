@@ -26,12 +26,6 @@ const MiniCard = () => {
   const [courses, setCourses] = useState([]);
   const scrollRef = useRef();
 
-  useEffect(() => {
-    fetch("http://localhost:5000/api/courses")
-      .then((res) => res.json())
-      .then((data) => setCourses(data))
-      .catch((err) => console.error("Failed to fetch courses:", err));
-  }, []);
 
   return (
     <div className="mt-4 mb-4">

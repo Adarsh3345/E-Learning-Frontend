@@ -1,12 +1,10 @@
 import React from "react";
 
-const SectionHeader = () => {
+const SectionHeader = ({ title, lastSaved, onExit, onPreview}) => {
   return (
     <div className="bg-black text-white dark:bg-white dark:text-black rounded-xl p-4 flex justify-between items-center shadow-md">
       <div>
-        <h2 className="text-sm md:text-base font-medium">
-          Week 1 - Beginner - Introduction to Business Management
-        </h2>
+        <h2 className="text-sm md:text-base font-medium">{title}</h2>
         <p className="text-xs text-gray-400 dark:text-gray-600 mt-1">
           Add and customize subsections.
         </p>
@@ -22,13 +20,24 @@ const SectionHeader = () => {
               clipRule="evenodd"
             />
           </svg>
-          Changes saved 2 mins ago
+          Changes saved {lastSaved || "just now"}
         </span>
       </div>
 
-      <button className="bg-purple-400 hover:bg-purple-500 text-white px-4 py-1.5 rounded-md text-sm font-medium transition dark:bg-purple-500 dark:hover:bg-purple-600">
-        Preview section
-      </button>
+      <div className="flex gap-2">
+        <button
+          onClick={onPreview}
+          className="bg-purple-400 hover:bg-purple-500 text-black px-4 py-1.5 rounded-md text-sm font-medium transition dark:bg-purple-500 dark:hover:bg-purple-600"
+        >
+          Preview section
+        </button>
+        <button
+          onClick={onExit}
+          className="bg-purple-400 hover:bg-purple-500 text-black px-4 py-1.5 rounded-md text-sm font-medium transition"
+        >
+          Save
+        </button>
+      </div>
     </div>
   );
 };

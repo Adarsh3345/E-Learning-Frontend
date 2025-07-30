@@ -9,6 +9,12 @@ import Dashboard from "./component/pages/dashboard/Dashboard";
 import WaitingPage from "./component/authorization/Waiting";
 import CreateCoursePage from "./component/pages/Teacher/CreateCourse/CreateCoursePage";
 import CreateWeekContent from "./component/pages/Teacher/WeekContent/CreateWeekContent";
+import CreateQuizPage from "./component/pages/Teacher/CreateQuiz/CreateQuizPage";
+import CoursePage from "./component/pages/Student/Course_dashboard/CoursePage";
+import CourseWeekPage from "./component/pages/Student/CourseWeek/CourseWeekPage";
+import CourseQuizPage from "./component/pages/Student/CourseQuiz/CourseQuizPage";
+import { CourseProvider } from "./component/context/CourseContext";
+import QuizResult from "./component/pages/Student/CourseQuiz/sub-components/QuizResult";
 // Layout Component
 const BlankLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -33,7 +39,6 @@ const BlankLayout = () => {
           className={`flex-1 w-auto h-auto overflow-y-auto scrollbar-hide bg-white dark:bg-black text-black dark:text-white transition-all duration-300 ${sidebarOpen ? "ml-[20vw]" : "ml-[5rem]"
             }`}
         >
-
           <Outlet context={{ sidebarOpen }} />
         </main>
       </div>
@@ -68,20 +73,32 @@ const router = createBrowserRouter([
         element: <Dashboard />,
       },
       {
-        path: "/create-course",
-        element: <CreateCoursePage/>, 
+        path: "/my-create-course",
+        element: <CreateCoursePage />,
       },
       {
-        path:"/create-week",
-        element:<CreateWeekContent/>
+        path: "/course/:course_id",
+        element: <CoursePage />,
       },
       {
-        path: "/courses",
-        element: <div>Courses Page</div>,
+        path: "/week/:sectionIndex",
+        element: <CreateWeekContent />,
       },
       {
-        path: "/teacher",
-        element: <div>Teacher Page</div>,
+        path: "/quiz/:sectionIndex/:componentIndex/:quizIndex",
+        element: <CreateQuizPage />,
+      },
+      {
+        path: "/course/:course_id/content/:course_content_id",
+        element: <CourseWeekPage />,
+      },
+      {
+        path:"/quiz/:quizId",
+        element: <CourseQuizPage />,
+      },
+      {
+        path:"/quiz-result/:email/:course_name/:quiz_title", 
+        element:<QuizResult />
       },
       {
         path: "/messages",
@@ -95,9 +112,12 @@ const router = createBrowserRouter([
   },
 ]);
 
-// App Component
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <CourseProvider>
+      <RouterProvider router={router} />
+    </CourseProvider>
+  );
 }
 
 export default App;

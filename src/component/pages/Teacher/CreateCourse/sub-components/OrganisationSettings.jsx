@@ -1,20 +1,26 @@
-import React, { useState } from "react";
+import React from "react";
 
-const OrganisationSettings = () => {
-  const [university, setUniversity] = useState("Any university");
-  const [specialisation, setSpecialisation] = useState("Business");
-  const [tags, setTags] = useState([
-    "Business",
-    "Economics",
-    "Success",
-    "CIO",
-    "Goals",
-    "Management",
-    "Company",
-  ]);
+const OrganisationSettings = ({
+  university,
+  setUniversity,
+  specialisation,
+  setSpecialisation,
+  tags,
+  setTags,
+}) => {
+  const [newTag, setNewTag] = React.useState("");
 
   const removeTag = (tagToRemove) => {
     setTags(tags.filter((tag) => tag !== tagToRemove));
+  };
+
+  const handleAddTag = (e) => {
+    e.preventDefault();
+    const trimmed = newTag.trim();
+    if (trimmed && !tags.includes(trimmed) && tags.length < 10) {
+      setTags([...tags, trimmed]);
+      setNewTag("");
+    }
   };
 
   return (
@@ -56,6 +62,17 @@ const OrganisationSettings = () => {
         <label className="block text-sm font-medium text-gray-700 mb-1">
           Course tags <span className="text-gray-400 text-sm">(up to 10)</span>
         </label>
+
+        <form onSubmit={handleAddTag}>
+          <input
+            type="text"
+            value={newTag}
+            onChange={(e) => setNewTag(e.target.value)}
+            placeholder="Add a tag and press Enter"
+            className="border px-3 py-1 rounded w-full max-w-sm mt-1"
+          />
+        </form>
+
         <div className="flex flex-wrap gap-2 mt-2">
           {tags.map((tag, index) => (
             <div
@@ -64,7 +81,10 @@ const OrganisationSettings = () => {
             >
               {tag}
               <button
-                onClick={() => removeTag(tag)}
+                onClick={(e) => {
+                  e.preventDefault();
+                  removeTag(tag);
+                }}
                 className="ml-2 text-white hover:text-red-400"
               >
                 ×

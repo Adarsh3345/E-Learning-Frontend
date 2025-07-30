@@ -44,7 +44,7 @@ const BarChartCard = () => {
           />
           <Bar
             dataKey="users"
-            fill="#6366f1"
+            fill="#bf92e4"
             radius={[6, 6, 0, 0]}
             animationDuration={1000}
           />

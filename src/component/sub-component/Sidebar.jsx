@@ -1,8 +1,17 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { X, Menu } from "lucide-react";
 
 const Sidebar = ({ isOpen, onClose }) => {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const userData = localStorage.getItem("user");
+    if (userData) {
+      setUser(JSON.parse(userData));
+    }
+  }, []);
+
   return (
     <div
       className={`fixed left-0 top-1/2 -translate-y-1/2 bg-black dark:bg-white text-white dark:text-black p-6 transition-all duration-300 z-40 flex flex-col
@@ -21,23 +30,35 @@ const Sidebar = ({ isOpen, onClose }) => {
         </button>
       </div>
 
-      <ul className={`space-y-4 transition-opacity duration-300 ${isOpen ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
+      <ul
+        className={`space-y-4 transition-opacity duration-300 ${
+          isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
+      >
         <li>
           <Link to="/dashboard" className="block px-4 py-2 rounded hover:bg-gray-700 transition">
             Dashboard
           </Link>
         </li>
+
         <li>
-          <Link to="/create-course" className="block px-4 py-2 rounded hover:bg-gray-700 transition">
-            Courses
-          </Link>
+          {user?.role === "teacher" ? (
+            <Link to="/my-create-course" className="block px-4 py-2 rounded hover:bg-gray-700 transition">
+              My Courses
+            </Link>
+          ) : (
+            <Link to="/courses" className="block px-4 py-2 rounded hover:bg-gray-700 transition">
+              Courses
+            </Link>
+          )}
         </li>
+
         <li>
           <Link to="/teacher" className="block px-4 py-2 rounded hover:bg-gray-700 transition">
             Teacher
           </Link>
         </li>
-        <li>
+        {/* <li>
           <Link to="/messages" className="block px-4 py-2 rounded hover:bg-gray-700 transition">
             Messages
           </Link>
@@ -46,7 +67,7 @@ const Sidebar = ({ isOpen, onClose }) => {
           <Link to="/payment" className="block px-4 py-2 rounded hover:bg-gray-700 transition">
             Payment
           </Link>
-        </li>
+        </li> */}
       </ul>
     </div>
   );

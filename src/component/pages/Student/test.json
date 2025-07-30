@@ -1,0 +1,40 @@
+{
+    "content": "",
+    "id": "59bbd6f9-f104-4d2d-b11f-1a51f0ac1bc7",
+    "images": [],
+    "options": [
+        "",
+        "",
+        "",
+        ""
+    ],
+    "quizzes": [
+        {
+            "courseId": "ff5b2418-3681-43c5-91a7-01e5107068b6",
+            "description": "This quiz will assess your overall understanding of the course.",
+            "questions": [
+                {
+                    "allow_multiple_answers": "no",
+                    "correctIndex": 1,
+                    "explanation": "",
+                    "id": 1753297108471,
+                    "options": [
+                        "1",
+                        "2"
+                    ],
+                    "points": 2,
+                    "question": "2345678ytrdszxc",
+                    "time": 0,
+                    "type": "multiple_choice"
+                }
+            ],
+            "quizId": "063607cc-5479-44b9-a877-27d5afe05a0d",
+            "quiz_total_points": 2,
+            "quiz_total_time": 0,
+            "title": "Final Assessment",
+            "weekId": "a160667e-b2f7-4756-bd4d-3e11ea0a91e5"
+        }
+    ],
+    "settings": {},
+    "type": "quiz"
+}

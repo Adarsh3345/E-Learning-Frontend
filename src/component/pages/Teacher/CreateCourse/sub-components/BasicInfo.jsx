@@ -1,79 +1,79 @@
-import React, { useState } from "react";
+import React from "react";
 
-const BasicInfo = () => {
-  const [name, setName] = useState(
-    "Beginner's Guide to Successful Company Management: Business and User Goals"
-  );
-  const [description, setDescription] = useState(
-    "Hello Student! 🙌 Economics isn't just a subject - it's the lens through which we view society. I will help you explore its profound implications. From micro to macroeconomics, discover the keys to understanding economic phenomena in my comprehensive courses 📉🚀"
-  );
-  const [charCount, setCharCount] = useState(275);
-  const [imageUrl, setImageUrl] = useState(
-    "https://images.unsplash.com/photo-1557804506-669a67965ba0"
-  );
+const BasicInfo = ({
+  name,
+  setName,
+  description,
+  setDescription,
+  imageUrl,
+  setImageUrl,
+  setCourseImageFile, // File object for uploading
+}) => {
+  const charCount = 500 - description.length;
 
   const handleDescriptionChange = (e) => {
-    const text = e.target.value;
-    setDescription(text);
-    setCharCount(500 - text.length); // Assuming 500 max length
+    setDescription(e.target.value);
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setCourseImageFile(file); // Save actual file to context
+      const previewUrl = URL.createObjectURL(file);
+      setImageUrl(previewUrl); // Set preview
+    }
   };
 
   return (
     <div className="bg-white rounded-xl shadow-md p-6 space-y-6">
-      <h2 className="text-lg font-semibold text-gray-900">Basic info</h2>
+      <h2 className="text-lg font-semibold text-gray-900">Basic Info</h2>
 
-      {/* Name Field */}
+      {/* Course Name */}
       <div>
-        <label className="block mb-1 text-sm font-medium text-gray-700">Name</label>
+        <label className="block mb-1 text-sm font-medium text-gray-700">Course Name</label>
         <input
           type="text"
-          className="w-full border rounded-lg px-3 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-purple-400"
           value={name}
           onChange={(e) => setName(e.target.value)}
+          className="w-full border rounded-lg px-3 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-purple-400"
+          placeholder="Enter course title"
         />
       </div>
 
-      {/* Description Field */}
+      {/* Course Description */}
       <div>
         <label className="block mb-1 text-sm font-medium text-gray-700">Description</label>
-        <div className="border rounded-lg">
-          {/* Toolbar (minimal dummy version) */}
-          <div className="flex items-center gap-2 px-2 py-1 border-b text-gray-500 text-sm">
-            <select className="bg-transparent">
-              <option>Normal text</option>
-              <option>Heading</option>
-            </select>
-            <button className="px-1 hover:text-black">B</button>
-            <button className="px-1 hover:text-black">I</button>
-            <button className="px-1 hover:text-black">🔗</button>
-            <button className="px-1 hover:text-black">• List</button>
-          </div>
-
-          {/* Textarea */}
-          <textarea
-            className="w-full p-3 h-32 resize-none focus:outline-none text-gray-800"
-            value={description}
-            onChange={handleDescriptionChange}
-          />
-        </div>
+        <textarea
+          value={description}
+          onChange={handleDescriptionChange}
+          className="w-full p-3 h-32 border rounded-lg resize-none text-gray-800 focus:outline-none focus:ring-2 focus:ring-purple-400"
+          placeholder="Enter course description (max 500 characters)"
+        />
         <p className="text-sm text-gray-500 mt-1">{charCount} characters left</p>
       </div>
 
       {/* Cover Image */}
       <div>
-        <label className="block mb-1 text-sm font-medium text-gray-700">Cover image</label>
-        <div className="relative">
-          <img
-            src={imageUrl}
-            alt="Cover"
-            className="w-full h-56 object-cover rounded-xl"
-          />
-          <button
-            className="absolute top-2 right-2 text-purple-600 text-sm hover:underline"
-            onClick={() => alert("Change image functionality not implemented")}
-          >
-            Click to change
-          </button>
+        <label className="block mb-1 text-sm font-medium text-gray-700">Cover Image</label>
+        <div className="relative group w-full h-56 rounded-xl overflow-hidden border border-gray-300 bg-gray-50 flex items-center justify-center">
+          {imageUrl ? (
+            <img
+              src={imageUrl}
+              alt="Cover Preview"
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+          ) : (
+            <span className="text-gray-400">No image selected</span>
+          )}
+          <label className="absolute top-2 right-2 bg-white/90 text-purple-600 text-sm px-3 py-1 rounded shadow-md cursor-pointer hover:bg-white">
+            Change Image
+            <input
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handleImageChange}
+            />
+          </label>
         </div>
       </div>
     </div>

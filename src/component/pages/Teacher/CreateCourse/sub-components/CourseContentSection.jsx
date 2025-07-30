@@ -1,9 +1,10 @@
-import React, { useState } from "react";
-import { FiEdit, FiMoreHorizontal, FiChevronDown } from "react-icons/fi";
+import React from "react";
+import { FiMoreHorizontal, FiChevronDown } from "react-icons/fi";
 import { MdDragIndicator } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import { useCourseContext } from "../../../../context/CourseContext";
 
-const SectionItem = ({ title }) => {
+const SectionItem = ({ title, onEdit }) => {
   return (
     <div className="flex items-center justify-between p-4 border rounded-xl bg-white hover:shadow-sm transition mb-3">
       <div className="flex items-center gap-2">
@@ -12,7 +13,10 @@ const SectionItem = ({ title }) => {
         <span className="text-sm font-medium text-gray-800">{title}</span>
       </div>
       <div className="flex items-center gap-2">
-        <button className="text-sm border px-4 py-1 rounded-md hover:bg-gray-100 text-gray-800">
+        <button 
+          onClick={onEdit}
+          className="text-sm border px-4 py-1 rounded-md hover:bg-gray-100 text-gray-800"
+        >
           Edit
         </button>
         <button>
@@ -24,15 +28,20 @@ const SectionItem = ({ title }) => {
 };
 
 const CourseContentSection = () => {
-  const navigate = useNavigate(); // ✅ FIX: Add this line
-  const handleAddSection = () => {
-    navigate("/create-week");
+  const navigate = useNavigate();
+  const { course, updateCourse } = useCourseContext();
+  const sections = course.sections;
+
+  const handleEditContent = (index) => {
+    navigate(`/week/${index}`);
   };
 
-  const [sections, setSections] = useState([
-    "Week 1 - Beginner - Introduction to Business Management",
-    "Week 2 - Beginner - Foundations of Company Management",
-  ]);
+  const handleAddSection = () => {
+    const newSectionTitle = `Week ${sections.length + 1} - ${course.level} - New Section`;
+    const newSections = [...sections, newSectionTitle];
+    updateCourse({ sections: newSections });
+    navigate(`/week/${sections.length}`); 
+  };
 
   return (
     <div className="bg-white p-6 rounded-xl shadow-md w-full max-w-3xl">
@@ -40,13 +49,17 @@ const CourseContentSection = () => {
         <h3 className="text-lg font-semibold">Content</h3>
         <button
           onClick={handleAddSection}
-          className="text-sm text-purple-600 hover:underline font-medium"
+          className="ml-2 text-blue-500 hover:text-blue-700 text-sm font-medium"
         >
           + Add new section
         </button>
       </div>
       {sections.map((title, index) => (
-        <SectionItem key={index} title={title} />
+        <SectionItem 
+          key={index} 
+          title={title} 
+          onEdit={() => handleEditContent(index)} 
+        />
       ))}
     </div>
   );
